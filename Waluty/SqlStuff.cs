@@ -6,13 +6,14 @@ namespace Waluty
 {
 	public class SqlStuff
 	{
-		private static string connectionString = "Data Source=PAJAK-PC;" +
-			   " Initial Catalog =Waluty;" +
+		private static string _databaseName = "Waluty";
+		private static string _tableName = "dbo.last_month_currency";
+		private static string connectionString = "Data Source=localhost;" +
+			   " Initial Catalog =" + _databaseName + ";" +
 			   "Integrated Security = True;" +
 			   "Encrypt = True;" +
 			   "TrustServerCertificate = True;" +
 			   "User Instance = False";
-		private static string _tableName = "Waluty.dbo.last_month_currency";
 
 		#region Add Data From Api To Database
 		private bool _can_i_disconnect = false;

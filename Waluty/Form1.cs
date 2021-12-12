@@ -13,6 +13,7 @@ namespace Waluty
 			SqlStuff.CheckIfTableExists();
 			PeriodicUpdate periodicUpdate = new PeriodicUpdate();
 			SqlStuff.PrintDatabase(ref dataGridView1);
+			
 		}
 
 
@@ -31,6 +32,31 @@ namespace Waluty
         private void button2_Click(object sender, EventArgs e)
         {
 			SqlStuff.PrintDatabase(ref dataGridView1);
+        }
+
+		private Form activeForm = null;
+		private void CenterPanelForm(Form showDatabasesForm)
+        {
+			if (activeForm != null)
+				activeForm.Close();
+			activeForm = showDatabasesForm;
+			showDatabasesForm.TopLevel = false;
+			showDatabasesForm.FormBorderStyle = FormBorderStyle.None;
+			showDatabasesForm.Dock = DockStyle.Left;
+			MenuPanelCenter.Controls.Add(showDatabasesForm);
+			MenuPanelCenter.Tag = showDatabasesForm;
+			showDatabasesForm.BringToFront();
+			showDatabasesForm.Show();
+        }
+
+        private void ShowDatabases_Click(object sender, EventArgs e)
+        {
+			CenterPanelForm(new Form2());
+        }
+
+        private void CreateNewDatabase_Click(object sender, EventArgs e)
+        {
+			CenterPanelForm(new Form3());
         }
     }
 }

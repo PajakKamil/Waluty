@@ -40,3 +40,5 @@ F:\Users\kpaja\source\repos\Waluty\Waluty\bin\Debug\net6.0-windows\Newtonsoft.Js
 F:\Users\kpaja\source\repos\Waluty\Waluty\obj\Debug\net6.0-windows\Waluty.Form1.resources
 F:\Users\kpaja\source\repos\Waluty\Waluty\obj\Debug\net6.0-windows\Waluty.csproj.GenerateResource.cache
 F:\Users\kpaja\source\repos\Waluty\Waluty\bin\Debug\net6.0-windows\DataGridViewAutoFilter.dll
+F:\Users\kpaja\source\repos\Waluty\Waluty\obj\Debug\net6.0-windows\Waluty.Form2.resources
+F:\Users\kpaja\source\repos\Waluty\Waluty\obj\Debug\net6.0-windows\Waluty.Form3.resources
