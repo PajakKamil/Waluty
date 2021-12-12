@@ -6,10 +6,10 @@ namespace Waluty
 {
 	public class SqlStuff
 	{
-		private static string _databaseName = "Waluty";
+		private static string _databaseName = ";";
 		private static string _tableName = "dbo.last_month_currency";
 		private static string connectionString = "Data Source=localhost;" +
-			   " Initial Catalog =" + _databaseName + ";" +
+			   " Initial Catalog =" + _databaseName +
 			   "Integrated Security = True;" +
 			   "Encrypt = True;" +
 			   "TrustServerCertificate = True;" +
@@ -22,6 +22,12 @@ namespace Waluty
 		{
 			if (!CheckIfTableExists())
 				return;
+			connectionString = "Data Source=localhost;" +
+			   " Initial Catalog =" + _databaseName + ";" +
+			   "Integrated Security = True;" +
+			   "Encrypt = True;" +
+			   "TrustServerCertificate = True;" +
+			   "User Instance = False";
 
 			SqlConnection conn = new SqlConnection(connectionString);
 			try
@@ -55,19 +61,19 @@ namespace Waluty
 
 			using (HttpClient client = new HttpClient())
 			{
-                try
-                {
+				try
+				{
 					await client.GetStringAsync(url);
-                    string sqlQuery = "DELETE FROM " + _tableName + ";";
-                    SqlCommand cmd = new SqlCommand(sqlQuery, conn);
-                    cmd.ExecuteNonQuery();
-                }
-                catch (Exception ex)
+					string sqlQuery = "DELETE FROM " + _tableName + ";";
+					SqlCommand cmd = new SqlCommand(sqlQuery, conn);
+					cmd.ExecuteNonQuery();
+				}
+				catch (Exception ex)
 				{
 					MessageBox.Show(ex.Message, "Error");
 					return;
-                }
-            }
+				}
+			}
 			DownloadExchangeRate(url, conn);
 			DownloadExchangeRate(url1, conn);
 		}
@@ -75,7 +81,7 @@ namespace Waluty
 
 		private async void DownloadExchangeRate(string url, SqlConnection conn)        //async - coś jak wątek, async nie może mieć ref
 		{
-			
+
 			List<Root> root = new List<Root>();
 
 			using (HttpClient client = new HttpClient())
@@ -89,7 +95,7 @@ namespace Waluty
 			if (_can_i_disconnect == true)
 			{
 				conn.Close();
-				
+
 				MessageBox.Show("successfully updated!");
 			}
 			else
@@ -140,7 +146,7 @@ namespace Waluty
 
 		public static void PrintDatabase(ref DataGridView dataGridView1)
 		{
-			
+
 			using (SqlConnection conn = new SqlConnection(connectionString))
 			{
 				conn.Open();
@@ -156,42 +162,89 @@ namespace Waluty
 		}
 
 		public static bool CheckIfTableExists()
-        {
-           using(SqlConnection conn = new SqlConnection(connectionString))
-            {
-                try
-                {
+		{
+			using (SqlConnection conn = new SqlConnection(connectionString))
+			{
+				try
+				{
 					conn.Open();
-					string sqlQuery = "SELECT TOP 1 Currency FROM " + _tableName + ";";
-					SqlCommand sql = new SqlCommand(sqlQuery,conn);
+					string sqlQuery = "SELECT name FROM master.dbo.sysdatabases WHERE dbid > 4 AND name ='" + _databaseName + "';";
+					SqlDataAdapter dataAdapter = new SqlDataAdapter(sqlQuery, conn);
+					DataSet ds = new DataSet();
+					dataAdapter.Fill(ds);
+					if (ds.Tables.Count == 0)
+					{
+						MessageBox.Show("Nie ma bazy");
+						throw new Exception("NoDatabase");
+					}
+					_databaseName = "Waluty";
+					sqlQuery = "SELECT TOP 1 Currency FROM " + _tableName + ";";
+					SqlCommand sql = new SqlCommand(sqlQuery, conn);
 					sql.ExecuteNonQuery();
-                }
-                catch (Exception ex)
-                {
-					MessageBox.Show("Tabela nie istnieje lub jest uszkodzona.\n" + ex.Message, "Warning");
-					DialogResult dr = MessageBox.Show("Utrorzyć nową tablicę " + _tableName + " w bazie danych?", "Utworzyć tablicę?", MessageBoxButtons.YesNo);
-					switch(dr)
-                    {
-						case DialogResult.Yes:
-                            try
-                            {
-							string sqlQuery = "CREATE TABLE " + _tableName + "(Currency varchar(50), Code varchar(4), Mid float, effectiveDate Date);";
-							SqlCommand sql = new SqlCommand(sqlQuery,conn);
-							sql.ExecuteNonQuery();
-							MessageBox.Show("Baza danych została pomyślnie dodana");
-                            }
-                            catch (Exception ex1)
-                            {
-								MessageBox.Show(ex1.Message, "Error");
-                            }
-							break;
-						case DialogResult.No:
-							break;
-                    }
-					return false;
-                }
+					sql = new SqlCommand(sqlQuery, conn);
+					sql.ExecuteNonQuery();
+
+				}
+				catch (Exception ex)
+				{
+					if (ex is SqlException)
+					{
+						MessageBox.Show("Tabela nie istnieje lub jest uszkodzona.\n" + ex.Message, "Warning");
+						DialogResult dr = MessageBox.Show("Utrorzyć nową tablicę " + _tableName + " w bazie danych?", "Utworzyć tablicę?", MessageBoxButtons.YesNo);
+						switch (dr)
+						{
+							case DialogResult.Yes:
+								try
+								{
+									string sqlQuery = "CREATE TABLE " + _tableName + "(Currency varchar(50), Code varchar(4), Mid float, effectiveDate Date);";
+									SqlCommand sql = new SqlCommand(sqlQuery, conn);
+									sql.ExecuteNonQuery();
+									MessageBox.Show("Tabela została pomyślnie dodana");
+									return true;
+								}
+								catch (Exception ex1)
+								{
+									MessageBox.Show(ex1.Message, "Error");
+								}
+								break;
+							case DialogResult.No:
+								break;
+						} //Koniec switch'a
+					} //koniec if'a
+
+
+					else
+					{
+						MessageBox.Show("Baza danych nie istnieje.\n" + ex.Message, "Warning");
+						_databaseName = "Waluty";
+						DialogResult dr = MessageBox.Show("Utrorzyć nową bazę danych oraz tablicę? " + _databaseName + "?", "Utworzyć bazę?", MessageBoxButtons.YesNo);
+						switch (dr)
+						{
+							case DialogResult.Yes:
+								try
+								{
+									string sqlQuery = "CREATE DATABASE " + _databaseName + ";";
+									SqlCommand sql = new SqlCommand(sqlQuery, conn);
+									sql.ExecuteNonQuery();
+									MessageBox.Show("Baza danych została pomyślnie dodana");
+									sqlQuery = "CREATE TABLE " + _tableName + "(Currency varchar(50), Code varchar(4), Mid float, effectiveDate Date);";
+									sql = new SqlCommand(sqlQuery,conn);
+									sql.ExecuteNonQuery();
+									return true;
+								}
+								catch (Exception ex1)
+								{
+									MessageBox.Show(ex1.Message, "Error");
+								}
+								break;
+							case DialogResult.No:
+								break;
+						}
+						return false;
+					}//koniec catch
+				} // Koniec using
 				return true;
-			}
-        }
+			} //Koniec metody
+		}
 	}
 }

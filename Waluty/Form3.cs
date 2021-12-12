@@ -41,6 +41,7 @@ namespace Waluty
                         cmd.CommandText = sql;
                         cmd.ExecuteNonQuery();
                     }
+                    MessageBox.Show("Pomyślnie wykonano polecenie");
                 }
                 catch (Exception ex)
                 {
