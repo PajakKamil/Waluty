@@ -44,15 +44,14 @@
             // 
             // button1
             // 
-            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.button1.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.button1.Cursor = System.Windows.Forms.Cursors.Hand;
             this.button1.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.button1.Location = new System.Drawing.Point(93, 551);
+            this.button1.Location = new System.Drawing.Point(93, 540);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(381, 41);
+            this.button1.Size = new System.Drawing.Size(608, 41);
             this.button1.TabIndex = 4;
             this.button1.Text = "Aktualizuj bazę danych";
             this.button1.UseVisualStyleBackColor = false;
@@ -73,7 +72,7 @@
             this.dataGridView1.Location = new System.Drawing.Point(12, 28);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowTemplate.Height = 25;
-            this.dataGridView1.Size = new System.Drawing.Size(549, 517);
+            this.dataGridView1.Size = new System.Drawing.Size(776, 506);
             this.dataGridView1.TabIndex = 5;
             // 
             // Currency
@@ -111,7 +110,7 @@
             this.ShowAllLabels});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(573, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(800, 25);
             this.toolStrip1.TabIndex = 6;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -133,7 +132,7 @@
             // 
             this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.button2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.button2.Location = new System.Drawing.Point(480, 551);
+            this.button2.Location = new System.Drawing.Point(707, 540);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 41);
             this.button2.TabIndex = 7;
@@ -146,11 +145,12 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.ClientSize = new System.Drawing.Size(573, 611);
+            this.ClientSize = new System.Drawing.Size(800, 600);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.button1);
+            this.MinimumSize = new System.Drawing.Size(800, 600);
             this.Name = "Form1";
             this.Text = "Okno jak okno";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();

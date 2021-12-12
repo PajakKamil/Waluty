@@ -10,6 +10,7 @@ namespace Waluty
 		public Form1()
 		{
 			InitializeComponent();
+			SqlStuff.CheckIfTableExists();
 			PeriodicUpdate periodicUpdate = new PeriodicUpdate();
 			SqlStuff.PrintDatabase(ref dataGridView1);
 		}

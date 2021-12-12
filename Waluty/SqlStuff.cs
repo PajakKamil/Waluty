@@ -6,18 +6,19 @@ namespace Waluty
 {
 	public class SqlStuff
 	{
-		#region Add Data From Api To Database
-		private bool _can_i_disconnect = false;
-		private static string _tableName = "Waluty.dbo.last_month_currency";
-
-		public async void ClickToUpdate()
-		{
-			string connectionString = "Data Source=PAJAK-PC;" +
+		private static string connectionString = "Data Source=PAJAK-PC;" +
 			   " Initial Catalog =Waluty;" +
 			   "Integrated Security = True;" +
 			   "Encrypt = True;" +
 			   "TrustServerCertificate = True;" +
 			   "User Instance = False";
+		private static string _tableName = "Waluty.dbo.last_month_currency";
+
+		#region Add Data From Api To Database
+		private bool _can_i_disconnect = false;
+
+		public async void ClickToUpdate()
+		{
 			SqlConnection conn = new SqlConnection(connectionString);
 			try
 			{
@@ -135,12 +136,7 @@ namespace Waluty
 
 		public static void PrintDatabase(ref DataGridView dataGridView1)
 		{
-			string connectionString = "Data Source=PAJAK-PC;" +
-			   " Initial Catalog =Waluty;" +
-			   "Integrated Security = True;" +
-			   "Encrypt = True;" +
-			   "TrustServerCertificate = True;" +
-			   "User Instance = False";
+			
 			using (SqlConnection conn = new SqlConnection(connectionString))
 			{
 				conn.Open();
@@ -154,5 +150,42 @@ namespace Waluty
 				//dataGridView1.DataSource = dtbl;
 			}
 		}
+
+		public static void CheckIfTableExists()
+        {
+           using(SqlConnection conn = new SqlConnection(connectionString))
+            {
+                try
+                {
+					conn.Open();
+					string sqlQuery = "SELECT TOP 1 Currency FROM " + _tableName + ";";
+					SqlCommand sql = new SqlCommand(sqlQuery,conn);
+					sql.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+					MessageBox.Show("Tabela nie istnieje lub jest uszkodzona.\n" + ex.Message, "Warning");
+					DialogResult dr = MessageBox.Show("Utrorzyć nową tablicę " + _tableName + " w bazie danych?", "Utworzyć tablicę?", MessageBoxButtons.YesNo);
+					switch(dr)
+                    {
+						case DialogResult.Yes:
+                            try
+                            {
+							string sqlQuery = "CREATE TABLE " + _tableName + "(Currency varchar(50), Code varchar(4), Mid float, effectiveDate Date);";
+							SqlCommand sql = new SqlCommand(sqlQuery,conn);
+							sql.ExecuteNonQuery();
+							MessageBox.Show("Baza danych została pomyślnie dodana");
+                            }
+                            catch (Exception ex1)
+                            {
+								MessageBox.Show(ex1.Message, "Error");
+                            }
+							break;
+						case DialogResult.No:
+							return;
+                    }
+                }
+            }
+        }
 	}
 }
