@@ -19,6 +19,9 @@ namespace Waluty
 
 		public async void ClickToUpdate()
 		{
+			if (!CheckIfTableExists())
+				return;
+
 			SqlConnection conn = new SqlConnection(connectionString);
 			try
 			{
@@ -151,7 +154,7 @@ namespace Waluty
 			}
 		}
 
-		public static void CheckIfTableExists()
+		public static bool CheckIfTableExists()
         {
            using(SqlConnection conn = new SqlConnection(connectionString))
             {
@@ -182,10 +185,12 @@ namespace Waluty
                             }
 							break;
 						case DialogResult.No:
-							return;
+							break;
                     }
+					return false;
                 }
-            }
+				return true;
+			}
         }
 	}
 }
