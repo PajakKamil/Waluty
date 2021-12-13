@@ -37,11 +37,11 @@
             // 
             this.dataGridViewDatabases.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridViewDatabases.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewDatabases.Dock = System.Windows.Forms.DockStyle.Top;
+            this.dataGridViewDatabases.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridViewDatabases.Location = new System.Drawing.Point(0, 0);
             this.dataGridViewDatabases.Name = "dataGridViewDatabases";
             this.dataGridViewDatabases.RowTemplate.Height = 25;
-            this.dataGridViewDatabases.Size = new System.Drawing.Size(417, 605);
+            this.dataGridViewDatabases.Size = new System.Drawing.Size(417, 656);
             this.dataGridViewDatabases.TabIndex = 0;
             // 
             // button1
