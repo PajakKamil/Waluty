@@ -162,7 +162,7 @@ namespace Waluty
 				try
 				{
 					conn.Open();
-					_databaseName = "Waluty";
+					_databaseName = "Waluty_noweeee";
 					string sqlQuery = "SELECT name FROM master.dbo.sysdatabases WHERE dbid > 4 AND name ='" + _databaseName + "';";
 					SqlDataAdapter dataAdapter = new SqlDataAdapter(sqlQuery, conn);
 					//DataSet ds = new DataSet();
@@ -211,7 +211,7 @@ namespace Waluty
 					{
 						MessageBox.Show("Baza danych nie istnieje.\n" + ex.Message, "Warning");
 						//_databaseName = "Walutyes";
-						DialogResult dr = MessageBox.Show("Utrorzyć nową bazę danych oraz tablicę? " + _databaseName + "?", "Utworzyć bazę?", MessageBoxButtons.YesNo);
+						DialogResult dr = MessageBox.Show("Utrorzyć nową bazę danych oraz tablicę " + _databaseName + "?", "Utworzyć bazę?", MessageBoxButtons.YesNo);
 						switch (dr)
 						{
 							case DialogResult.Yes:
@@ -221,15 +221,15 @@ namespace Waluty
 									SqlCommand sql = new SqlCommand(sqlQuery, conn);
 									sql.ExecuteNonQuery();
 									MessageBox.Show("Baza danych została pomyślnie dodana");
-									sqlQuery = "CREATE TABLE " + _tableName + "(Currency varchar(50), Code varchar(4), Mid float, effectiveDate Date);";
+									sqlQuery = "CREATE TABLE " + _databaseName + "." + _tableName + "(Currency varchar(50), Code varchar(4), Mid float, effectiveDate Date);";
 									sql = new SqlCommand(sqlQuery,conn);
 									sql.ExecuteNonQuery();
 									connectionString = "Data Source=localhost;" +
-													   " Initial Catalog =" + _databaseName + ";" +
-													   "Integrated Security = True;" +
-													   "Encrypt = True;" +
-													   "TrustServerCertificate = True;" +
-													   "User Instance = False";
+														   " Initial Catalog =" + _databaseName + ";" +
+														   "Integrated Security = True;" +
+														   "Encrypt = True;" +
+														   "TrustServerCertificate = True;" +
+														   "User Instance = False";
 									return true;
 								}
 								catch (Exception ex1)
