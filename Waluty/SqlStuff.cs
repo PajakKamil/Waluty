@@ -162,16 +162,17 @@ namespace Waluty
 				try
 				{
 					conn.Open();
+					_databaseName = "Waluty";
 					string sqlQuery = "SELECT name FROM master.dbo.sysdatabases WHERE dbid > 4 AND name ='" + _databaseName + "';";
 					SqlDataAdapter dataAdapter = new SqlDataAdapter(sqlQuery, conn);
-					DataSet ds = new DataSet();
-					dataAdapter.Fill(ds);
-					if (ds.Tables.Count == 0)
+					//DataSet ds = new DataSet();
+					DataTable dtbl = new DataTable();
+					dataAdapter.Fill(dtbl);
+					if (dtbl.Rows.Count == 0)
 					{
 						MessageBox.Show("Nie ma bazy");
 						throw new Exception("NoDatabase");
 					}
-					_databaseName = "Waluty";
 
 					sqlQuery = "SELECT TOP 1 Currency FROM " + _databaseName + "." + _tableName + ";";
 					SqlCommand sql = new SqlCommand(sqlQuery, conn);
@@ -209,7 +210,7 @@ namespace Waluty
 					else
 					{
 						MessageBox.Show("Baza danych nie istnieje.\n" + ex.Message, "Warning");
-						_databaseName = "Waluty";
+						//_databaseName = "Walutyes";
 						DialogResult dr = MessageBox.Show("Utrorzyć nową bazę danych oraz tablicę? " + _databaseName + "?", "Utworzyć bazę?", MessageBoxButtons.YesNo);
 						switch (dr)
 						{
