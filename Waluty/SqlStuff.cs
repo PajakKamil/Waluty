@@ -172,14 +172,8 @@ namespace Waluty
 						throw new Exception("NoDatabase");
 					}
 					_databaseName = "Waluty";
-					connectionString = "Data Source=localhost;" +
-									   " Initial Catalog =" + _databaseName + ";" +
-									   "Integrated Security = True;" +
-									   "Encrypt = True;" +
-									   "TrustServerCertificate = True;" +
-									   "User Instance = False";
 
-					sqlQuery = "SELECT TOP 1 Currency FROM " + _tableName + ";";
+					sqlQuery = "SELECT TOP 1 Currency FROM " + _databaseName + "." + _tableName + ";";
 					SqlCommand sql = new SqlCommand(sqlQuery, conn);
 					sql.ExecuteNonQuery();
 
@@ -195,7 +189,7 @@ namespace Waluty
 							case DialogResult.Yes:
 								try
 								{
-									string sqlQuery = "CREATE TABLE " + _tableName + "(Currency varchar(50), Code varchar(4), Mid float, effectiveDate Date);";
+									string sqlQuery = "CREATE TABLE " + _databaseName + "." + _tableName + "(Currency varchar(50), Code varchar(4), Mid float, effectiveDate Date);";
 									SqlCommand sql = new SqlCommand(sqlQuery, conn);
 									sql.ExecuteNonQuery();
 									MessageBox.Show("Tabela została pomyślnie dodana");
@@ -248,6 +242,12 @@ namespace Waluty
 						return false;
 					}//koniec catch
 				} // Koniec using
+				connectionString = "Data Source=localhost;" +
+									   " Initial Catalog =" + _databaseName + ";" +
+									   "Integrated Security = True;" +
+									   "Encrypt = True;" +
+									   "TrustServerCertificate = True;" +
+									   "User Instance = False";
 				return true;
 			} //Koniec metody
 		}
