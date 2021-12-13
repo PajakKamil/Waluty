@@ -162,7 +162,7 @@ namespace Waluty
 				try
 				{
 					conn.Open();
-					_databaseName = "Waluty_noweeee";
+					_databaseName = "Waluty";
 					string sqlQuery = "SELECT name FROM master.dbo.sysdatabases WHERE dbid > 4 AND name ='" + _databaseName + "';";
 					SqlDataAdapter dataAdapter = new SqlDataAdapter(sqlQuery, conn);
 					//DataSet ds = new DataSet();
