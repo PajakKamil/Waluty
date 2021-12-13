@@ -22,12 +22,6 @@ namespace Waluty
 		{
 			if (!CheckIfTableExists())
 				return;
-			connectionString = "Data Source=localhost;" +
-			   " Initial Catalog =" + _databaseName + ";" +
-			   "Integrated Security = True;" +
-			   "Encrypt = True;" +
-			   "TrustServerCertificate = True;" +
-			   "User Instance = False";
 
 			SqlConnection conn = new SqlConnection(connectionString);
 			try
@@ -178,10 +172,15 @@ namespace Waluty
 						throw new Exception("NoDatabase");
 					}
 					_databaseName = "Waluty";
+					connectionString = "Data Source=localhost;" +
+									   " Initial Catalog =" + _databaseName + ";" +
+									   "Integrated Security = True;" +
+									   "Encrypt = True;" +
+									   "TrustServerCertificate = True;" +
+									   "User Instance = False";
+
 					sqlQuery = "SELECT TOP 1 Currency FROM " + _tableName + ";";
 					SqlCommand sql = new SqlCommand(sqlQuery, conn);
-					sql.ExecuteNonQuery();
-					sql = new SqlCommand(sqlQuery, conn);
 					sql.ExecuteNonQuery();
 
 				}
@@ -230,6 +229,12 @@ namespace Waluty
 									sqlQuery = "CREATE TABLE " + _tableName + "(Currency varchar(50), Code varchar(4), Mid float, effectiveDate Date);";
 									sql = new SqlCommand(sqlQuery,conn);
 									sql.ExecuteNonQuery();
+									connectionString = "Data Source=localhost;" +
+													   " Initial Catalog =" + _databaseName + ";" +
+													   "Integrated Security = True;" +
+													   "Encrypt = True;" +
+													   "TrustServerCertificate = True;" +
+													   "User Instance = False";
 									return true;
 								}
 								catch (Exception ex1)
