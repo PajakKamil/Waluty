@@ -157,6 +157,8 @@ namespace Waluty
 
 		public static bool CheckIfTableExists()
 		{
+			//										>>>>>>>>>>>>>>>>>>>>>>Uporządkować ten śmietnik!!!!<<<<<<<<<<<<<<<<<<<<<<<<<
+
 			using (SqlConnection conn = new SqlConnection(connectionString))
 			{
 				try
